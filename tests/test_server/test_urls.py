@@ -4,7 +4,7 @@ import pytest
 from django.test import Client
 
 
-@pytest.mark.django_db()()
+@pytest.mark.django_db()
 def test_health_check(client: Client) -> None:
     """This test ensures that health check is accessible."""
     response = client.get('/health/')
@@ -41,6 +41,13 @@ def test_admin_docs_authorized(admin_client: Client) -> None:
 
     assert response.status_code == HTTPStatus.OK
     assert b'docutils' not in response.content
+
+
+def test_index(client: Client) -> None:
+    """This test ensures that index page is accessible."""
+    response = client.get('/')
+
+    assert response.status_code == HTTPStatus.OK
 
 
 @pytest.mark.parametrize('page', [
